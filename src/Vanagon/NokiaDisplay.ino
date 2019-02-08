@@ -15,7 +15,7 @@ void initDisplay()
   display.begin();
 }
 
-void drawDisplay(float batteryLevel, float fuelLevel, float oilPressure)
+void drawDisplay(float batteryLevel, float fuelLevel, float oilPressure, float mixture)
 {
   display.setContrast(55);
   display.clearDisplay();
@@ -25,8 +25,8 @@ void drawDisplay(float batteryLevel, float fuelLevel, float oilPressure)
   writeString(1, 5, String(fuelLevel) + " L");
   writeString(2, 0, "Oil");
   writeString(2, 5, String(oilPressure) + " bar");
-  //writeString(3, 0, "Fuel:");
-  //writeString(3, 7, String(fuelLevel) + " L");
+  writeString(3, 0, "Oxygen");
+  writeString(3, 7, String(mixture) + " V");
   display.display();
 }
 

@@ -1,8 +1,7 @@
-int batteryPin = A0;
-
 double readBatteryLevel()
 {
-  int senderValue = analogRead(batteryPin);
-  double batteryLevel = map(senderValue, 0, 1023, 0, 1500) / 100.0;
-  return batteryLevel;
+  int senderValue = analogRead(in_battery);
+  //double voltage = senderValue * 5.01 / 1024;
+  double batteryVoltage = map(senderValue, 643, 966, 1000, 1500) / 100.0;
+  return batteryVoltage;
 }

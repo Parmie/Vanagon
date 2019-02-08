@@ -1,9 +1,8 @@
-int fuelPin = A2;
 int fuelDeviderResistance = 330;
 
 double readFuelSender()
 {
-  int senderValue = analogRead(fuelPin);
+  int senderValue = analogRead(in_fuelLevel);
   double voltage = map(senderValue, 0, 1023, 0, 500) / 100.0;
   double resistance = (voltage*fuelDeviderResistance)/(inputVoltage-voltage);
   double fuelLevel = fuelResistanceToLiters(resistance);
