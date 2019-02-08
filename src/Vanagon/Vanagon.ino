@@ -1,3 +1,7 @@
+#include "AnalogInput.h"
+#include "Battery.h"
+#include "FuelTank.h"
+
 const double inputVoltage = 10.53;
 const double refVoltage = 4.096;
 
@@ -15,6 +19,12 @@ const int in_throttleSwitch = 5;
 const int in_injectors = 6;
 const int in_ignition = 7;
 
+AnalogInput batteryInput(A0);
+Battery battery(&batteryInput);
+
+AnalogInput fuelSenderInput(A5);
+FuelTank fuelTank(&fuelSenderInput);
+
 void setup()
 {
   //analogReference(EXTERNAL);
@@ -24,13 +34,20 @@ void setup()
 
 void loop()
 {
+  battery.update();
+  Serial.print(String(battery.getVoltage()));
+
+  Serial.print(" ");
+
+  fuelTank.update();
+  Serial.print(String(fuelTank.getContent()));
+
+
+  Serial.println();
+
   double batteryLevel = readBatteryLevel();
   double fuelLevel = readFuelSender();
   double oilPressure = readOilPressure();
   double oxygenLevel = readOxygen(in_oxygen);
-  Serial.print("Battery: " + String(batteryLevel) + " V     ");
-  Serial.print("Fuel: " + String(fuelLevel) + " L     ");
-  Serial.print("Oil: " + String(oilPressure) + " bar     ");
-  Serial.println("Ox: " + String(oxygenLevel) + " V");
   drawDisplay(batteryLevel, fuelLevel, oilPressure, oxygenLevel);
 }
