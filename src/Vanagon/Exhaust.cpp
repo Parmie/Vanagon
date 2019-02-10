@@ -1,3 +1,6 @@
+#ifndef Exhaust_cpp
+#define Exhaust_cpp
+
 #include <Arduino.h>
 #include "AnalogInput.cpp"
 
@@ -40,3 +43,5 @@ class Exhaust {
       this->_oxygenVoltage = inputVoltage;
     };
 };
+
+#endif

@@ -14,7 +14,7 @@ class Input
       _pin = pin;
     };
     
-    void read();
+    virtual void read();
 };
 
 #endif

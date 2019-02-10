@@ -9,14 +9,13 @@ const float REF_VOLTAGE = 4.096;
 class AnalogInput : Input
 {
   private:
-    int _pin;
     float _voltage;
-    float _dividerRate = 1;
+    float _dividerRate = 1.0;
     
   public:
     float getVoltage()
     {
-      return this->_voltage;
+      return _voltage;
     };
 
     AnalogInput(int pin) : Input(pin)
@@ -25,13 +24,13 @@ class AnalogInput : Input
 
     void read()
     {
-      int reading = analogRead(this->_pin);
-      this->_voltage = reading * (REF_VOLTAGE / 1024.0) * this->_dividerRate;
+      int reading = analogRead(_pin);
+      _voltage = reading * (REF_VOLTAGE / 1024.0) * _dividerRate;
     };
 
     void setDivider(float resistance1, float resistance2)
     {
-      this->_dividerRate = (resistance1+resistance2)/resistance2;
+      _dividerRate = (resistance1+resistance2)/resistance2;
     };
 };
 

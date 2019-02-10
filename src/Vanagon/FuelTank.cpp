@@ -1,3 +1,6 @@
+#ifndef FuelTank_cpp
+#define FuelTank_cpp
+
 #include <Arduino.h>
 #include "AnalogInput.cpp"
 
@@ -38,3 +41,5 @@ class FuelTank
         float content = (4.794908061 * pow(10, -4) * pow(resistance, 2)) - (4.726976404 * pow(10, -1) * resistance) + 99.48112787;
     };
 };
+
+#endif
