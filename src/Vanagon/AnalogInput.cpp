@@ -1,23 +1,38 @@
+#ifndef AnalogInput_cpp
+#define AnalogInput_cpp
+
 #include <Arduino.h>
-#include "AnalogInput.h"
+#include "Input.cpp"
 
-float AnalogInput::getVoltage()
-{
-    return this->_voltage;
-}
+const float REF_VOLTAGE = 4.096;
 
-AnalogInput::AnalogInput(int pin)
+class AnalogInput : Input
 {
-    this->_pin = pin;
-}
+  private:
+    int _pin;
+    float _voltage;
+    float _dividerRate = 1;
+    
+  public:
+    float getVoltage()
+    {
+      return this->_voltage;
+    };
 
-void AnalogInput::read()
-{
-    int reading = analogRead(this->_pin);
-    this->_voltage = reading * (REF_VOLTAGE / 1024.0) * this->_dividerRate;
-}
+    AnalogInput(int pin) : Input(pin)
+    {
+    };
 
-void AnalogInput::setDivider(float resistance1, float resistance2)
-{
-    this->_dividerRate = (resistance1+resistance2)/resistance2;
-}
+    void read()
+    {
+      int reading = analogRead(this->_pin);
+      this->_voltage = reading * (REF_VOLTAGE / 1024.0) * this->_dividerRate;
+    };
+
+    void setDivider(float resistance1, float resistance2)
+    {
+      this->_dividerRate = (resistance1+resistance2)/resistance2;
+    };
+};
+
+#endif

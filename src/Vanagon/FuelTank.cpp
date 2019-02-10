@@ -1,30 +1,40 @@
 #include <Arduino.h>
-#include "FuelTank.h"
+#include "AnalogInput.cpp"
 
-float FuelTank::getCapacity()
+class FuelTank
 {
-    return this->_capacity;
-}
+  private:
+    static const int _senderDividerResistance = 330;
+    AnalogInput *_senderInput;
+    float _capacity;
+    float _content;
 
-void FuelTank::setCapacity(float value)
-{
-    this->_capacity = value;
-}
+  public:
+    float getCapacity()
+    {
+        return this->_capacity;
+    };
 
-float FuelTank::getContent()
-{
-    return this->_content;
-}
+    void setCapacity(float value)
+    {
+        this->_capacity = value;
+    };
 
-FuelTank::FuelTank(AnalogInput *senderInput)
-{
-    this->_senderInput = senderInput;
-}
+    float getContent()
+    {
+        return this->_content;
+    };
 
-void FuelTank::update()
-{
-    this->_senderInput->read();
-    float voltage = this->_senderInput->getVoltage();
-    float resistance = (voltage*FuelTank::_senderDividerResistance)/(REF_VOLTAGE-voltage);
-    float content = (4.794908061*pow(10,-4)*pow(resistance, 2))-(4.726976404*pow(10,-1)*resistance)+99.48112787;
-}
+    FuelTank(AnalogInput *senderInput)
+    {
+        this->_senderInput = senderInput;
+    };
+
+    void update()
+    {
+        this->_senderInput->read();
+        float voltage = this->_senderInput->getVoltage();
+        float resistance = (voltage * FuelTank::_senderDividerResistance) / (REF_VOLTAGE - voltage);
+        float content = (4.794908061 * pow(10, -4) * pow(resistance, 2)) - (4.726976404 * pow(10, -1) * resistance) + 99.48112787;
+    };
+};

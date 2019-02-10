@@ -1,20 +1,31 @@
+#ifndef Battery_cpp
+#define Battery_cpp
+
 #include <Arduino.h>
-#include "Battery.h"
-#include "AnalogInput.h"
+#include "AnalogInput.cpp"
 
-float Battery::getVoltage()
-{
-  return this->_voltage;
-}
+class Battery {
+  private:
+    AnalogInput *_input;
+    float _voltage;
 
-Battery::Battery(AnalogInput *input)// : _input(input)
-{
-  this->_input = input;
-}
+  public:
+    float getVoltage()
+    {
+      return this->_voltage;
+    };
 
-void Battery::update()
-{
-  this->_input->read();
-  float inputVoltage = this->_input->getVoltage();
-  this->_voltage = inputVoltage;
-}
+    Battery(AnalogInput *input)
+    {
+      this->_input = input;
+    };
+
+    void update()
+    {
+      this->_input->read();
+      float inputVoltage = this->_input->getVoltage();
+      this->_voltage = inputVoltage;
+    };
+};
+
+#endif

@@ -1,36 +1,42 @@
 #include <Arduino.h>
-#include "Exhaust.h"
-#include "AnalogInput.h"
+#include "AnalogInput.cpp"
 
-float Exhaust::getOxygenVoltage()
-{
-  return this->_oxygenVoltage;
-}
+class Exhaust {
+  private:
+    AnalogInput *_oxygenInput;
+    float _oxygenVoltage;
 
-int Exhaust::getMixtureStatus()
-{
-  if (this->_oxygenVoltage > 0.720)
-  {
-      return +1;
-  }
-  else if (this->_oxygenVoltage < 0.120)
-  {
-      return -1;
-  }
-  else
-  {
-      return 0;
-  }
-}
+  public:
+    float getOxygenVoltage()
+    {
+      return this->_oxygenVoltage;
+    };
 
-Exhaust::Exhaust(AnalogInput *oxygenInput)
-{
-  this->_oxygenInput = oxygenInput;
-}
+    int getMixtureStatus()
+    {
+      if (this->_oxygenVoltage > 0.720)
+      {
+          return +1;
+      }
+      else if (this->_oxygenVoltage < 0.120)
+      {
+          return -1;
+      }
+      else
+      {
+          return 0;
+      }
+    };
 
-void Exhaust::update()
-{
-  this->_oxygenInput->read();
-  float inputVoltage = this->_oxygenInput->getVoltage();
-  this->_oxygenVoltage = inputVoltage;
-}
+    Exhaust(AnalogInput *oxygenInput)
+    {
+      this->_oxygenInput = oxygenInput;
+    };
+
+    void update()
+    {
+      this->_oxygenInput->read();
+      float inputVoltage = this->_oxygenInput->getVoltage();
+      this->_oxygenVoltage = inputVoltage;
+    };
+};

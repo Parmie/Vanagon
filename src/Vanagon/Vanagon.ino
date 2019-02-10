@@ -1,13 +1,11 @@
-#include "AnalogInput.h"
-#include "Battery.h"
-#include "FuelTank.h"
-#include "Exhaust.h"
+#include "AnalogInput.cpp"
+#include "Battery.cpp"
+#include "FuelTank.cpp"
+#include "Exhaust.cpp"
 
 const double inputVoltage = 10.53;
 const double refVoltage = 4.096;
 
-const int in_battery = A0;
-const int in_oxygen = A1;
 const int in_airFlow = A2;
 const int in_airTemperature = A3;
 const int in_coolantTemperature = A4;
@@ -55,9 +53,8 @@ void loop()
 
   Serial.println();
 
-  //double batteryLevel = readBatteryLevel();
   double fuelLevel = readFuelSender();
   double oilPressure = readOilPressure();
-  //double oxygenLevel = readOxygen(in_oxygen);
+  
   drawDisplay(battery.getVoltage(), fuelLevel, oilPressure, exhaust.getOxygenVoltage());
 }
