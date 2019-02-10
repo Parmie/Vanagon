@@ -10,10 +10,12 @@ class AnalogInput
   private:
     int _pin;
     float _voltage;
+    float _dividerRate = 1;
   public:
     float getVoltage();
     AnalogInput(int pin);
     void read();
+    void setDivider(float resistance1, float resistance2);
 };
 
 #endif

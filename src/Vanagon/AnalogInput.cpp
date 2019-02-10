@@ -14,5 +14,10 @@ AnalogInput::AnalogInput(int pin)
 void AnalogInput::read()
 {
     int reading = analogRead(this->_pin);
-    this->_voltage = reading * (REF_VOLTAGE / 1023.0);
+    this->_voltage = reading * (REF_VOLTAGE / 1024.0) * this->_dividerRate;
+}
+
+void AnalogInput::setDivider(float resistance1, float resistance2)
+{
+    this->_dividerRate = (resistance1+resistance2)/resistance2;
 }

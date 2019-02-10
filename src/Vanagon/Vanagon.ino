@@ -1,6 +1,7 @@
 #include "AnalogInput.h"
 #include "Battery.h"
 #include "FuelTank.h"
+#include "Exhaust.h"
 
 const double inputVoltage = 10.53;
 const double refVoltage = 4.096;
@@ -25,11 +26,16 @@ Battery battery(&batteryInput);
 AnalogInput fuelSenderInput(A5);
 FuelTank fuelTank(&fuelSenderInput);
 
+AnalogInput oxygenSensorInput(A1);
+Exhaust exhaust(&oxygenSensorInput);
+
 void setup()
 {
-  //analogReference(EXTERNAL);
+  analogReference(EXTERNAL);
   Serial.begin(9600);
   initDisplay();
+
+  batteryInput.setDivider(216.3, 98.8);
 }
 
 void loop()
@@ -42,12 +48,16 @@ void loop()
   fuelTank.update();
   Serial.print(String(fuelTank.getContent()));
 
+  Serial.print(" ");
+
+  exhaust.update();
+  Serial.print(String(exhaust.getOxygenVoltage()));
 
   Serial.println();
 
-  double batteryLevel = readBatteryLevel();
+  //double batteryLevel = readBatteryLevel();
   double fuelLevel = readFuelSender();
   double oilPressure = readOilPressure();
-  double oxygenLevel = readOxygen(in_oxygen);
-  drawDisplay(batteryLevel, fuelLevel, oilPressure, oxygenLevel);
+  //double oxygenLevel = readOxygen(in_oxygen);
+  drawDisplay(battery.getVoltage(), fuelLevel, oilPressure, exhaust.getOxygenVoltage());
 }
