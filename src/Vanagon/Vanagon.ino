@@ -1,4 +1,6 @@
 #include "AnalogInput.cpp"
+#include "DigitalInput.cpp"
+#include "Button.cpp"
 #include "Battery.cpp"
 #include "FuelTank.cpp"
 #include "Exhaust.cpp"
@@ -29,6 +31,10 @@ FuelTank fuelTank(&fuelSenderInput);
 AnalogInput oxygenSensorInput(A1);
 Exhaust exhaust(&oxygenSensorInput);
 
+extern void buttonClick();
+DigitalInput buttonInput(13);
+Button button(&buttonInput, buttonClick);
+
 DefaultView defaultView(&battery, &fuelTank, &exhaust);
 Display display(&defaultView);
 
@@ -42,6 +48,8 @@ void setup()
 
 void loop()
 {
+  button.read();
+
   battery.update();
   Serial.print(String(battery.getVoltage()));
 
@@ -55,9 +63,11 @@ void loop()
   exhaust.update();
   Serial.print(String(exhaust.getOxygenVoltage()));
 
-  Serial.print(" ");
-
   Serial.println();
   
   display.update();
+}
+
+void buttonClick()
+{
 }
