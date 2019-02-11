@@ -62,6 +62,11 @@ class Display {
         writeCharacter(line, pos + i, text[i]);
       }
     };
+
+    void drawPixel(unsigned int x, unsigned int y)
+    {
+      _display.drawPixel(x, y, BLACK);
+    };
 };
 
 #endif

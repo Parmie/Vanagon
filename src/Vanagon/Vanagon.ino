@@ -6,6 +6,7 @@
 #include "Exhaust.cpp"
 #include "Display.cpp"
 #include "DefaultView.cpp"
+#include "GraphView.cpp"
 
 const double inputVoltage = 10.53;
 const double refVoltage = 4.096;
@@ -35,7 +36,9 @@ extern void buttonClick();
 DigitalInput buttonInput(13);
 Button button(&buttonInput, buttonClick);
 
+byte viewIndex = 0;
 DefaultView defaultView(&battery, &fuelTank, &exhaust);
+GraphView graphView("Oxygen");
 Display display(&defaultView);
 
 void setup()
@@ -62,6 +65,7 @@ void loop()
 
   exhaust.update();
   Serial.print(String(exhaust.getOxygenVoltage()));
+  graphView.addPoint(exhaust.getOxygenVoltage()*100);
 
   Serial.println();
   
@@ -70,4 +74,14 @@ void loop()
 
 void buttonClick()
 {
+  if (viewIndex == 0)
+  {
+    display.setView(&graphView);
+    viewIndex = 1;
+  }
+  else if (viewIndex == 1)
+  {
+    display.setView(&defaultView);
+    viewIndex = 0;
+  }
 }
