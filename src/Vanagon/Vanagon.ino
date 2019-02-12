@@ -1,3 +1,4 @@
+#include "PerformanceMonitor.cpp"
 #include "AnalogInput.cpp"
 #include "DigitalInput.cpp"
 #include "Button.cpp"
@@ -22,6 +23,8 @@ const int in_diagnostics = 4;
 const int in_throttleSwitch = 5;
 const int in_injectors = 6;
 const int in_ignition = 7;
+
+PerformanceMonitor performanceMonitor;
 
 AnalogInput batteryInput(A0);
 Battery battery(&batteryInput);
@@ -51,6 +54,8 @@ void setup()
 
 void loop()
 {
+  performanceMonitor.update();
+
   button.read();
 
   battery.update();
