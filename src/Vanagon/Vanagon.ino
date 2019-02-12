@@ -39,9 +39,13 @@ extern void buttonClick();
 DigitalInput buttonInput(13);
 Button button(&buttonInput, buttonClick);
 
-byte viewIndex = 0;
 DefaultView defaultView(&battery, &fuelTank, &exhaust);
-GraphView graphView("Oxygen");
+GraphView batteryGraphView("Battery", &performanceMonitor, 0, 15, 1, 12);
+GraphView fuelGraphView("Fuel", &performanceMonitor, 0, 70, 10, 0);
+GraphView oilPressureGraphView("Oil press.", &performanceMonitor, 0, 50);
+GraphView oxygenGraphView("Oxygen", &performanceMonitor, 0, 1, 0.1, 0.5);
+
+byte viewIndex = 0;
 Display display(&defaultView);
 
 void setup()
@@ -59,21 +63,25 @@ void loop()
   button.read();
 
   battery.update();
+  batteryGraphView.addPoint(battery.getVoltage());
   Serial.print(String(battery.getVoltage()));
 
   Serial.print(" ");
 
   fuelTank.update();
+  fuelGraphView.addPoint(fuelTank.getContent());
   Serial.print(String(fuelTank.getContent()));
 
   Serial.print(" ");
 
   exhaust.update();
+  oxygenGraphView.addPoint(exhaust.getOxygenVoltage());
   Serial.print(String(exhaust.getOxygenVoltage()));
-  graphView.addPoint(exhaust.getOxygenVoltage()*100);
 
   Serial.println();
   
+  oilPressureGraphView.addPoint(random(0, 2)*50);
+
   display.update();
 }
 
@@ -81,10 +89,25 @@ void buttonClick()
 {
   if (viewIndex == 0)
   {
-    display.setView(&graphView);
+    display.setView(&batteryGraphView);
     viewIndex = 1;
   }
   else if (viewIndex == 1)
+  {
+    display.setView(&fuelGraphView);
+    viewIndex = 2;
+  }
+  else if (viewIndex == 2)
+  {
+    display.setView(&oilPressureGraphView);
+    viewIndex = 3;
+  }
+  else if (viewIndex == 3)
+  {
+    display.setView(&oxygenGraphView);
+    viewIndex = 4;
+  }
+  else if (viewIndex == 4)
   {
     display.setView(&defaultView);
     viewIndex = 0;
