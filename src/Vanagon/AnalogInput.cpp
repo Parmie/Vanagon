@@ -4,46 +4,24 @@
 #include <Arduino.h>
 #include "Input.cpp"
 
-const float REF_VOLTAGE = 4.096;
-
 class AnalogInput : Input
 {
   private:
-    float _voltage = 0.0;
-    float _dividerRate = 1.0;
-    bool _simulated;
+    unsigned short _value = 0;
     
   public:
-    float getVoltage()
+    float getValue()
     {
-      return _voltage;
+      return _value;
     };
 
-    void setVoltage(float voltage)
+    AnalogInput(int pin) : Input(pin)
     {
-      if (_simulated)
-      {
-        _voltage = voltage;
-      }
-    }
-
-    AnalogInput(int pin, bool simulated = false) : Input(pin)
-    {
-      _simulated = simulated;
     };
 
     void read()
     {
-      if (!_simulated)
-      {
-        int reading = analogRead(_pin);
-        _voltage = reading * (REF_VOLTAGE / 1024.0) * _dividerRate;
-      }
-    };
-
-    void setDivider(float resistance1, float resistance2)
-    {
-      _dividerRate = (resistance1+resistance2)/resistance2;
+      _value = analogRead(_pin);
     };
 };
 

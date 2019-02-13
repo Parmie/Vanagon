@@ -52,8 +52,6 @@ void setup()
 {
   analogReference(EXTERNAL);
   Serial.begin(9600);
-
-  batteryInput.setDivider(216.3, 98.8);
 }
 
 void loop()

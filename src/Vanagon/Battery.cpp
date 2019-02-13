@@ -3,28 +3,25 @@
 
 #include <Arduino.h>
 #include "AnalogInput.cpp"
+#include "VoltageMeter.cpp"
 
 class Battery {
   private:
-    AnalogInput *_input;
-    float _voltage;
+    VoltageMeter _meter;
 
   public:
     float getVoltage()
     {
-      return this->_voltage;
+      return _meter.getVoltage();
     };
 
-    Battery(AnalogInput *input)
+    Battery(AnalogInput *input) : _meter(input, {216.3, 98.8})
     {
-      this->_input = input;
     };
 
     void update()
     {
-      this->_input->read();
-      float inputVoltage = this->_input->getVoltage();
-      this->_voltage = inputVoltage;
+      _meter.update();
     };
 };
 

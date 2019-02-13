@@ -3,25 +3,25 @@
 
 #include <Arduino.h>
 #include "AnalogInput.cpp"
+#include "VoltageMeter.cpp"
 
 class Exhaust {
   private:
-    AnalogInput *_oxygenInput;
-    float _oxygenVoltage;
+    VoltageMeter _oxygenVoltage;
 
   public:
     float getOxygenVoltage()
     {
-      return this->_oxygenVoltage;
+      return _oxygenVoltage.getVoltage();
     };
 
     int getMixtureStatus()
     {
-      if (this->_oxygenVoltage > 0.720)
+      if (_oxygenVoltage.getVoltage() > 0.720)
       {
           return +1;
       }
-      else if (this->_oxygenVoltage < 0.120)
+      else if (_oxygenVoltage.getVoltage() < 0.120)
       {
           return -1;
       }
@@ -31,16 +31,13 @@ class Exhaust {
       }
     };
 
-    Exhaust(AnalogInput *oxygenInput)
+    Exhaust(AnalogInput *oxygenInput) : _oxygenVoltage(oxygenInput)
     {
-      this->_oxygenInput = oxygenInput;
     };
 
     void update()
     {
-      this->_oxygenInput->read();
-      float inputVoltage = this->_oxygenInput->getVoltage();
-      this->_oxygenVoltage = inputVoltage;
+      _oxygenVoltage.update();
     };
 };
 
