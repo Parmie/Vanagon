@@ -40,10 +40,10 @@ DigitalInput buttonInput(13);
 Button button(&buttonInput, buttonClick);
 
 DefaultView defaultView(&battery, &fuelTank, &exhaust);
-GraphView batteryGraphView("Battery", &performanceMonitor, 0, 15, 1, 12);
-GraphView fuelGraphView("Fuel", &performanceMonitor, 0, 70, 10, 0);
-GraphView oilPressureGraphView("Oil press.", &performanceMonitor, 0, 50);
-GraphView oxygenGraphView("Oxygen", &performanceMonitor, 0, 1, 0.1, 0.5);
+GraphView batteryGraphView("Battery", "V", 0, 15, 1, 12);
+GraphView fuelGraphView("Fuel", "L", 0, 70, 10, 0);
+GraphView oilPressureGraphView("Oil", "bar", 0, 50);
+GraphView oxygenGraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
 
 byte viewIndex = 0;
 Display display(&defaultView);

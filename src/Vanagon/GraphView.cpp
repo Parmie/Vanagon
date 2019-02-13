@@ -11,19 +11,20 @@
 class GraphView : public View {
   private:
     String _title;
-    PerformanceMonitor *_performanceMonitor;
+    String _unit;
     float _min;
     float _max;
     float _step1;
     float _step2;
     byte _points[GRAPH_LENGTH];
     byte _firstPoint = 0;
+    float _currentValue;
 
   public:
-    GraphView(String title, PerformanceMonitor *performanceMonitor, float min = 0, float max = GRAPH_HIGHT, float step1 = 0, float step2 = 0)
+    GraphView(String title, String unit, float min = 0, float max = GRAPH_HIGHT, float step1 = 0, float step2 = 0)
     {
       _title = title;
-      _performanceMonitor = performanceMonitor;
+      _unit = unit;
       _min = min;
       _max = max;
       _step1 = step1;
@@ -32,6 +33,7 @@ class GraphView : public View {
 
     void addPoint(float value)
     {
+      _currentValue = value;
       _points[_firstPoint] = (value - _min) * GRAPH_HIGHT / _max;
       _firstPoint++;
       if (_firstPoint == GRAPH_LENGTH)
@@ -43,15 +45,9 @@ class GraphView : public View {
     void draw(Display *display) override
     {
       display->writeString(0, 0, _title);
-      String cycleTimeText = String(_performanceMonitor->getCycleTime());
-      display->writeString(0, 12-cycleTimeText.length(), cycleTimeText);
-      display->writeString(0, 12, "ms");
-      /*
-      for (byte x=0; x < GRAPH_LENGTH; x++)
-      {
-        display->drawPixel(x, 8);
-      }
-      */
+      String valueText = String(_currentValue);
+      display->writeString(0, 14-_unit.length()-valueText.length(), valueText);
+      display->writeString(0, 14-_unit.length(), _unit);
 
       if (_step1 > 0)
       {
