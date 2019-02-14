@@ -15,7 +15,6 @@ class VoltageMeter
   private:
     AnalogInput *_input;
     float _reference = 4.096;
-    float _voltage = 0.0;
     float _scale = 1.0;
 
   public:
@@ -31,7 +30,7 @@ class VoltageMeter
 
     float getVoltage()
     {
-      return _voltage;
+      return _input->getValue() * (_reference / 1024.0) * _scale;
     };
 
     VoltageMeter(AnalogInput *input, VoltageDivider divider = { 0, 0 })
@@ -39,14 +38,13 @@ class VoltageMeter
       _input = input;
       if (divider.resistor2 > 0)
       {
-        _scale = (divider.resistor1+divider.resistor2)/divider.resistor2;
+        _scale = (divider.resistor1 + divider.resistor2) / divider.resistor2;
       }
     };
 
     void update()
     {
       _input->read();
-      _voltage = _input->getValue() * (_reference / 1024.0) * _scale;
     };
 };
 
