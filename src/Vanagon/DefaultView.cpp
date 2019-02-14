@@ -5,19 +5,22 @@
 #include "Display.cpp"
 #include "Battery.cpp"
 #include "FuelTank.cpp"
+#include "OilPressure.cpp"
 #include "Exhaust.cpp"
 
 class DefaultView : public View {
   private:
     Battery *_battery;
     FuelTank *_fuelTank;
+    OilPressure *_oilPressure;
     Exhaust *_exhaust;
 
   public:
-    DefaultView(Battery *battery, FuelTank *fuelTank, Exhaust *exhaust)
+    DefaultView(Battery *battery, FuelTank *fuelTank, OilPressure *oilPressure, Exhaust *exhaust)
     {
       _battery = battery;
       _fuelTank = fuelTank;
+      _oilPressure = oilPressure;
       _exhaust = exhaust;
     };
 
@@ -33,7 +36,7 @@ class DefaultView : public View {
       display->writeString(1, 5+6-fuelLevel.length(), fuelLevel);
       display->writeString(1, 11, "L");
 
-      String oilPressure = String(0.0);
+      String oilPressure = String(_oilPressure->getPressure());
       display->writeString(2, 0, "Oil");
       display->writeString(2, 5+6-oilPressure.length(), oilPressure);
       display->writeString(2, 11, "bar");
