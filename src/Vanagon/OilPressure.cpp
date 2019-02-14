@@ -2,8 +2,8 @@
 #define OilPressure_cpp
 
 #include <Arduino.h>
-#include "AnalogInput.cpp"
-#include "ResistanceMeter.cpp"
+#include "Arduino\AnalogInput.cpp"
+#include "Tools\ResistanceMeter.cpp"
 
 class OilPressure
 {

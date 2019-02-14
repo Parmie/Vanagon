@@ -2,7 +2,7 @@
 #define Button_cpp
 
 #include <Arduino.h>
-#include "DigitalInput.cpp"
+#include "..\Arduino\DigitalInput.cpp"
 
 class Button {
   private:

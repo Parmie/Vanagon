@@ -2,7 +2,7 @@
 #define VoltageMeter_cpp
 
 #include <Arduino.h>
-#include "AnalogInput.cpp"
+#include "..\Arduino\AnalogInput.cpp"
 
 struct VoltageDivider
 {

@@ -2,7 +2,7 @@
 #define ResistanceMeter_cpp
 
 #include <Arduino.h>
-#include "AnalogInput.cpp"
+#include "..\Arduino\AnalogInput.cpp"
 #include "VoltageMeter.cpp"
 
 class ResistanceMeter

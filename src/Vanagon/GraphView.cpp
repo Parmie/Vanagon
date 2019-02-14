@@ -2,8 +2,7 @@
 #define GraphView_cpp
 
 #include <Arduino.h>
-#include "Display.cpp"
-#include "PerformanceMonitor.cpp"
+#include "Tools\Display.cpp"
 
 #define GRAPH_LENGTH 82
 #define GRAPH_HIGHT 38
