@@ -40,7 +40,7 @@ AnalogInput oxygenSensorInput(A1);
 Exhaust exhaust(&oxygenSensorInput);
 
 extern void buttonClick();
-DigitalInput buttonInput(13);
+DigitalInput buttonInput(13, 0);
 Button button(&buttonInput, buttonClick);
 
 GraphView batteryGraphView("Battery", "V", 0, 15, 1, 12);
@@ -57,6 +57,7 @@ void setup()
 {
   analogReference(EXTERNAL);
   Serial.begin(9600);
+  buttonInput.attachInterrupt();
 
   listView1.configure(0, "Batt", "V");
   listView1.configure(1, "Fuel", "L");
@@ -102,7 +103,7 @@ void loop()
   listView1.setValue(1, fuelTank.getContent());
   listView1.setValue(2, oilPressure.getPressure());
   listView1.setValue(3, exhaust.getOxygenVoltage());
-  listView1.setValue(4, (int)buttonInput.getRising());
+  listView1.setValue(4, INTERRUPTS);
 
   display.update();
 }
