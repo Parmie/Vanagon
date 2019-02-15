@@ -8,10 +8,8 @@
 #include "Exhaust.cpp"
 #include "Tools\Display.cpp"
 #include "DefaultView.cpp"
+#include "ListView.cpp"
 #include "GraphView.cpp"
-
-const double inputVoltage = 10.53;
-const double refVoltage = 4.096;
 
 const int in_airFlow = A2;
 const int in_airTemperature = A3;
@@ -45,19 +43,26 @@ extern void buttonClick();
 DigitalInput buttonInput(13);
 Button button(&buttonInput, buttonClick);
 
-DefaultView defaultView(&battery, &fuelTank, &oilPressure, &exhaust);
 GraphView batteryGraphView("Battery", "V", 0, 15, 1, 12);
 GraphView fuelGraphView("Fuel", "L", 0, 70, 10, 0);
 GraphView oilPressureGraphView("Oil", "bar", 0, 5, 1, 0);
 GraphView oxygenGraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
 
+ListView listView1;
+
 byte viewIndex = 0;
-Display display(&defaultView);
+Display display(&listView1);
 
 void setup()
 {
   analogReference(EXTERNAL);
   Serial.begin(9600);
+
+  listView1.configure(0, "Batt", "V");
+  listView1.configure(1, "Fuel", "L");
+  listView1.configure(2, "Oil", "bar");
+  listView1.configure(3, "Oxygen", "V");
+  listView1.configure(4, "Button", "");
 }
 
 void loop()
@@ -93,6 +98,12 @@ void loop()
 
   Serial.println();
 
+  listView1.setValue(0, battery.getVoltage());
+  listView1.setValue(1, fuelTank.getContent());
+  listView1.setValue(2, oilPressure.getPressure());
+  listView1.setValue(3, exhaust.getOxygenVoltage());
+  listView1.setValue(4, (int)buttonInput.getRising());
+
   display.update();
 }
 
@@ -120,7 +131,7 @@ void buttonClick()
   }
   else if (viewIndex == 4)
   {
-    display.setView(&defaultView);
+    display.setView(&listView1);
     viewIndex = 0;
   }
 }
