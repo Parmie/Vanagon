@@ -3,17 +3,25 @@
 
 #include <Arduino.h>
 #include "Arduino\AnalogInput.cpp"
-#include "Tools\VoltageMeter.cpp"
+#include "Tools\ResistanceMeter.cpp"
 
 class FuelTank
 {
   private:
-    static const int _senderDividerResistance = 330;
-    VoltageMeter _senderVoltage;
+    ResistanceMeter _resistanceMeter;
     float _capacity;
-    float _content;
 
   public:
+    float getResistance()
+    {
+      return _resistanceMeter.getResistance();
+    };
+
+    float getContent()
+    {
+        return (4.794908061 * pow(10, -4) * pow(_resistanceMeter.getResistance(), 2)) - (4.726976404 * pow(10, -1) * _resistanceMeter.getResistance()) + 99.48112787;
+    };
+
     float getCapacity()
     {
         return _capacity;
@@ -24,20 +32,18 @@ class FuelTank
         _capacity = value;
     };
 
-    float getContent()
-    {
-        return _content;
-    };
-
-    FuelTank(AnalogInput *senderInput) : _senderVoltage(senderInput)
+    FuelTank(AnalogInput *resistanceInput) : _resistanceMeter(resistanceInput, 326)
     {
     };
 
     void update()
     {
-        _senderVoltage.update();
-        float resistance = (_senderVoltage.getVoltage() * FuelTank::_senderDividerResistance) / (_senderVoltage.getReference() - _senderVoltage.getVoltage());
-        float content = (4.794908061 * pow(10, -4) * pow(resistance, 2)) - (4.726976404 * pow(10, -1) * resistance) + 99.48112787;
+      _resistanceMeter.update();
+    };
+
+    void setBaseVoltage(float voltage)
+    {
+      _resistanceMeter.setBaseVoltage(voltage);
     };
 };
 

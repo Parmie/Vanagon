@@ -80,6 +80,7 @@ void loop()
 
   Serial.print(" ");
 
+  fuelTank.setBaseVoltage(sensorVoltage.getVoltage());
   fuelTank.update();
   fuelGraphView.addPoint(fuelTank.getContent());
   Serial.print(String(fuelTank.getContent()));
