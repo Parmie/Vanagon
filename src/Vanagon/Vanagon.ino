@@ -49,9 +49,18 @@ GraphView oilPressureGraphView("Oil", "bar", 0, 5, 1, 0);
 GraphView oxygenGraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
 
 ListView listView1;
+ListView listView2;
+
+View *views[] = {
+  &listView1,
+  &batteryGraphView,
+  &fuelGraphView,
+  &oilPressureGraphView,
+  &oxygenGraphView
+};
 
 byte viewIndex = 0;
-Display display(&listView1);
+Display display(views[0]);
 
 void setup()
 {
@@ -111,29 +120,11 @@ void loop()
 
 void buttonClick()
 {
-  if (viewIndex == 0)
+  if (viewIndex++ >= sizeof(views))
   {
-    display.setView(&batteryGraphView);
-    viewIndex = 1;
-  }
-  else if (viewIndex == 1)
-  {
-    display.setView(&fuelGraphView);
-    viewIndex = 2;
-  }
-  else if (viewIndex == 2)
-  {
-    display.setView(&oilPressureGraphView);
-    viewIndex = 3;
-  }
-  else if (viewIndex == 3)
-  {
-    display.setView(&oxygenGraphView);
-    viewIndex = 4;
-  }
-  else if (viewIndex == 4)
-  {
-    display.setView(&listView1);
     viewIndex = 0;
   }
+
+  display.setView(views[viewIndex]);
+
 }
