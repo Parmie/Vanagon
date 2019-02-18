@@ -28,6 +28,11 @@ class GraphView : public View {
       _max = max;
       _step1 = step1;
       _step2 = step2;
+
+      for (int i = 0; i < GRAPH_LENGTH; i++)
+      {
+        _points[i] = 0;
+      }
     };
 
     void addPoint(float value)

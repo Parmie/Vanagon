@@ -7,7 +7,6 @@
 #include "OilPressure.cpp"
 #include "Exhaust.cpp"
 #include "Tools\Display.cpp"
-#include "DefaultView.cpp"
 #include "ListView.cpp"
 #include "GraphView.cpp"
 
@@ -43,36 +42,21 @@ extern void buttonClick();
 DigitalInput buttonInput(13, 0);
 Button button(&buttonInput, buttonClick);
 
-GraphView batteryGraphView("Battery", "V", 0, 15, 1, 12);
-GraphView fuelGraphView("Fuel", "L", 0, 70, 10, 0);
-GraphView oilPressureGraphView("Oil", "bar", 0, 5, 1, 0);
-GraphView oxygenGraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
-
-ListView listView1;
-ListView listView2;
-
-View *views[] = {
-  &listView1,
-  &batteryGraphView,
-  &fuelGraphView,
-  &oilPressureGraphView,
-  &oxygenGraphView
-};
+ListView *listView1;
+GraphView *batteryGraphView;
+GraphView *fuelGraphView;
+GraphView *oilPressureGraphView;
+GraphView *oxygenGraphView;
 
 byte viewIndex = 0;
-Display display(views[0]);
+View *view;
+Display display;
 
 void setup()
 {
   analogReference(EXTERNAL);
   Serial.begin(9600);
   buttonInput.attachInterrupt();
-
-  listView1.configure(0, "Batt", "V");
-  listView1.configure(1, "Fuel", "L");
-  listView1.configure(2, "Oil", "bar");
-  listView1.configure(3, "Oxygen", "V");
-  listView1.configure(4, "Button", "");
 }
 
 void loop()
@@ -84,47 +68,114 @@ void loop()
   sensorVoltage.update();
 
   battery.update();
-  batteryGraphView.addPoint(battery.getVoltage());
-  Serial.print(String(battery.getVoltage()));
-
-  Serial.print(" ");
 
   fuelTank.setBaseVoltage(sensorVoltage.getVoltage());
   fuelTank.update();
-  fuelGraphView.addPoint(fuelTank.getContent());
-  Serial.print(String(fuelTank.getContent()));
-
-  Serial.print(" ");
 
   oilPressure.setBaseVoltage(sensorVoltage.getVoltage());
   oilPressure.update();
-  oilPressureGraphView.addPoint(oilPressure.getPressure());
-  Serial.print(String(oilPressure.getPressure()));
-
-  Serial.print(" ");
 
   exhaust.update();
-  oxygenGraphView.addPoint(exhaust.getOxygenVoltage());
-  Serial.print(String(exhaust.getOxygenVoltage()));
 
+  Serial.print(String(battery.getVoltage()));
+  Serial.print(" ");
+  Serial.print(String(fuelTank.getContent()));
+  Serial.print(" ");
+  Serial.print(String(oilPressure.getPressure()));
+  Serial.print(" ");
+  Serial.print(String(exhaust.getOxygenVoltage()));
+  Serial.print(" ");
+  Serial.print(String(viewIndex));
   Serial.println();
 
-  listView1.setValue(0, battery.getVoltage());
-  listView1.setValue(1, fuelTank.getContent());
-  listView1.setValue(2, oilPressure.getPressure());
-  listView1.setValue(3, exhaust.getOxygenVoltage());
-  listView1.setValue(4, INTERRUPTS);
+  if (listView1 != NULL)
+  {
+    listView1->setValue(0, battery.getVoltage());
+    listView1->setValue(1, fuelTank.getContent());
+    listView1->setValue(2, oilPressure.getPressure());
+    listView1->setValue(3, exhaust.getOxygenVoltage());
+    listView1->setValue(4, INTERRUPTS);
+  }
 
-  display.update();
+  if (batteryGraphView != NULL)
+  {
+    batteryGraphView->addPoint(battery.getVoltage());
+  }
+
+  if (fuelGraphView != NULL)
+  {
+    fuelGraphView->addPoint(fuelTank.getContent());
+  }
+
+  if (oilPressureGraphView != NULL)
+  {
+    oilPressureGraphView->addPoint(oilPressure.getPressure());
+  }
+
+  if (oxygenGraphView != NULL)
+  {
+    oxygenGraphView->addPoint(exhaust.getOxygenVoltage());
+  }
+
+  if (view != NULL)
+  {
+    display.update(view);
+  }
 }
 
 void buttonClick()
 {
-  if (viewIndex++ >= sizeof(views))
+  switch (viewIndex)
   {
-    viewIndex = 0;
+    case 0:
+    {
+      delete listView1;
+      listView1 = NULL;
+
+      view = batteryGraphView = new GraphView("Battery", "V", 0, 15, 1, 12);
+      viewIndex = 1;
+      break;
+    }
+    case 1:
+    {
+      delete batteryGraphView;
+      batteryGraphView = NULL;
+      
+      view = fuelGraphView = new GraphView("Fuel", "L", 0, 70, 10, 0);
+      viewIndex = 2;
+      break;
+    }
+    case 2:
+    {
+      delete fuelGraphView;
+      fuelGraphView = NULL;
+      
+      view = oilPressureGraphView = new GraphView("Oil", "bar", 0, 5, 1, 0);
+      viewIndex = 3;
+      break;
+    }
+    case 3:
+    {
+      delete oilPressureGraphView;
+      oilPressureGraphView = NULL;
+      
+      view = oxygenGraphView = new GraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
+      viewIndex = 4;
+      break;
+    }
+    case 4:
+    {
+      delete oxygenGraphView;
+      oxygenGraphView = NULL;
+      
+      view = listView1 = new ListView();
+      listView1->configure(0, "Batt", "V");
+      listView1->configure(1, "Fuel", "L");
+      listView1->configure(2, "Oil", "bar");
+      listView1->configure(3, "Oxygen", "V");
+      listView1->configure(4, "Button", "");
+      viewIndex = 0;
+      break;
+    }
   }
-
-  display.setView(views[viewIndex]);
-
 }

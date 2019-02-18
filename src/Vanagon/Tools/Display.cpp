@@ -22,21 +22,10 @@ class View {
 class Display {
   private:
     Adafruit_PCD8544 _display = Adafruit_PCD8544(CLK, DIN, DC, CE, RST);
-    View *_view;
     bool _initialized = false;
 
   public:
-    Display(View *view)
-    {
-      _view = view;
-    };
-
-    void setView(View *view)
-    {
-      _view = view;
-    };
-
-    void update()
+    void update(View *view)
     {
       if (!_initialized)
       {
@@ -46,7 +35,7 @@ class Display {
 
       _display.setContrast(55);
       _display.clearDisplay();
-      _view->draw(this);
+      view->draw(this);
       _display.display();
     };
 
