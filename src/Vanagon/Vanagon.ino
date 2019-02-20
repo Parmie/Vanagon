@@ -2,11 +2,12 @@
 #include "Arduino\AnalogInput.cpp"
 #include "Arduino\DigitalInput.cpp"
 #include "Tools\Button.cpp"
+#include "Tools\PulseInput.cpp"
+#include "Tools\Display.cpp"
 #include "Battery.cpp"
 #include "FuelTank.cpp"
 #include "OilPressure.cpp"
 #include "Exhaust.cpp"
-#include "Tools\Display.cpp"
 #include "ListView.cpp"
 #include "GraphView.cpp"
 
@@ -18,7 +19,6 @@ const int in_starter = 2;
 const int in_hallSender = 3;
 const int in_diagnostics = 4;
 const int in_throttleSwitch = 5;
-const int in_injectors = 6;
 const int in_ignition = 7;
 
 PerformanceMonitor performanceMonitor;
@@ -41,6 +41,9 @@ Exhaust exhaust(&oxygenSensorInput);
 extern void buttonClick();
 DigitalInput buttonInput(13, 0);
 Button button(&buttonInput, buttonClick);
+
+PulseInput hallSensorInput(6);
+Injection injection(&hallSensorInput);
 
 ListView *listView1;
 GraphView *batteryGraphView;
@@ -85,6 +88,8 @@ void loop()
   Serial.print(" ");
   Serial.print(String(exhaust.getOxygenVoltage()));
   Serial.print(" ");
+  Serial.print(String(injection.getRevolutions()));
+  Serial.print(" ");
   Serial.print(String(viewIndex));
   Serial.println();
 
@@ -94,7 +99,7 @@ void loop()
     listView1->setValue(1, fuelTank.getContent());
     listView1->setValue(2, oilPressure.getPressure());
     listView1->setValue(3, exhaust.getOxygenVoltage());
-    listView1->setValue(4, INTERRUPTS);
+    //listView1->setValue(4, pulseInput.getPulseLength());
   }
 
   if (batteryGraphView != NULL)

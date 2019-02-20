@@ -12,6 +12,10 @@ class DigitalInput : Input
   private:
     bool _usingInterrupts = false;
     bool _state = LOW;
+    byte _pulseCounter = 0;
+    unsigned int _highTime = 0;
+    unsigned int _lowTime = 0;
+    unsigned int _lastMillis = 0;
     bool _newState = LOW;
     bool _rising = false;
     bool _falling = false;
@@ -25,8 +29,6 @@ class DigitalInput : Input
 
     void changeState(bool state)
     {
-      INTERRUPTS = state;
-      
       _rising = false;
       _falling = false;
 
@@ -44,6 +46,7 @@ class DigitalInput : Input
         {
           // Set rising edge
           _rising = true;
+          _pulseCounter++;
         }
         else
         {
@@ -68,6 +71,13 @@ class DigitalInput : Input
     {
       return _falling;
     };
+
+    byte getCounter()
+    {
+      byte result = _pulseCounter;
+      _pulseCounter = 0;
+      return result;
+    }
 
     long setDebouncePeriod(unsigned long period)
     {
