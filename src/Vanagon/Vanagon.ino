@@ -10,6 +10,7 @@
 #include "Exhaust.cpp"
 #include "ListView.cpp"
 #include "GraphView.cpp"
+#include "Injection.cpp"
 
 const int in_airFlow = A2;
 const int in_airTemperature = A3;
