@@ -8,6 +8,7 @@
 #include "FuelTank.cpp"
 #include "OilPressure.cpp"
 #include "Exhaust.cpp"
+#include "Induction.cpp"
 #include "ListView.cpp"
 #include "GraphView.cpp"
 #include "Injection.cpp"
@@ -46,7 +47,12 @@ Button button(&buttonInput, buttonClick);
 PulseInput hallSensorInput(6);
 Injection injection(&hallSensorInput);
 
+AnalogInput airTemperatureInput(A3);
+AnalogInput airFlowInput(A2);
+Induction induction(&airTemperatureInput, &airFlowInput);
+
 ListView *listView1;
+ListView *listView2;
 GraphView *batteryGraphView;
 GraphView *fuelGraphView;
 GraphView *oilPressureGraphView;
@@ -61,6 +67,13 @@ void setup()
   analogReference(EXTERNAL);
   Serial.begin(9600);
   buttonInput.attachInterrupt();
+
+  view = listView1 = new ListView();
+  listView1->configure(0, "Batt", "V");
+  listView1->configure(1, "Fuel", "L");
+  listView1->configure(2, "Oil", "bar");
+  listView1->configure(3, "Oxygen", "V");
+  listView1->configure(4, "Button", "");
 }
 
 void loop()
@@ -80,6 +93,7 @@ void loop()
   oilPressure.update();
 
   exhaust.update();
+  induction.update();
 
   Serial.print(String(battery.getVoltage()));
   Serial.print(" ");
@@ -101,6 +115,12 @@ void loop()
     listView1->setValue(2, oilPressure.getPressure());
     listView1->setValue(3, exhaust.getOxygenVoltage());
     //listView1->setValue(4, pulseInput.getPulseLength());
+  }
+
+  if (listView2 != NULL)
+  {
+    listView2->setValue(0, induction.getTemperatureResistance());
+    listView2->setValue(1, induction.getFlowResistance());
   }
 
   if (batteryGraphView != NULL)
@@ -138,38 +158,50 @@ void buttonClick()
       delete listView1;
       listView1 = NULL;
 
-      view = batteryGraphView = new GraphView("Battery", "V", 0, 15, 1, 12);
+      view = listView2 = new ListView();
+      listView2->configure(0, "Air T", "C");
+      listView2->configure(1, "Air F", "");
+
       viewIndex = 1;
       break;
     }
     case 1:
     {
-      delete batteryGraphView;
-      batteryGraphView = NULL;
-      
-      view = fuelGraphView = new GraphView("Fuel", "L", 0, 70, 10, 0);
+      delete listView2;
+      listView2 = NULL;
+
+      view = batteryGraphView = new GraphView("Battery", "V", 0, 15, 1, 12);
       viewIndex = 2;
       break;
     }
     case 2:
     {
-      delete fuelGraphView;
-      fuelGraphView = NULL;
+      delete batteryGraphView;
+      batteryGraphView = NULL;
       
-      view = oilPressureGraphView = new GraphView("Oil", "bar", 0, 5, 1, 0);
+      view = fuelGraphView = new GraphView("Fuel", "L", 0, 70, 10, 0);
       viewIndex = 3;
       break;
     }
     case 3:
     {
-      delete oilPressureGraphView;
-      oilPressureGraphView = NULL;
+      delete fuelGraphView;
+      fuelGraphView = NULL;
       
-      view = oxygenGraphView = new GraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
+      view = oilPressureGraphView = new GraphView("Oil", "bar", 0, 5, 1, 0);
       viewIndex = 4;
       break;
     }
     case 4:
+    {
+      delete oilPressureGraphView;
+      oilPressureGraphView = NULL;
+      
+      view = oxygenGraphView = new GraphView("Oxygen", "V", 0, 1, 0.1, 0.5);
+      viewIndex = 5;
+      break;
+    }
+    case 5:
     {
       delete oxygenGraphView;
       oxygenGraphView = NULL;
