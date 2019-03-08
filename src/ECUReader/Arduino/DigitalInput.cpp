@@ -5,8 +5,6 @@
 #include <YetAnotherPcInt.h>
 #include "Input.cpp"
 
-byte INTERRUPTS = 0;
-
 class DigitalInput : Input
 {
   private:
