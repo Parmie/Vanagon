@@ -22,9 +22,6 @@ const int in_ignition = 7;
 
 PerformanceMonitor performanceMonitor;
 
-AnalogInput sensorVoltageInput(A7);
-VoltageMeter sensorVoltage(&sensorVoltageInput, {148.6, 148.3});
-
 Vanagon *vanagon;
 Console *console;
 
@@ -33,17 +30,15 @@ void setup()
   analogReference(EXTERNAL);
 
   vanagon = new Vanagon();
-  console = new Console(115200);
+  console = new Console(vanagon, &performanceMonitor, 115200);
 }
 
 void loop()
 {
   // Reading all inputs
   performanceMonitor.update();
-  sensorVoltage.update();
 
-  vanagon->setSensorVoltage(sensorVoltage.getVoltage());
   vanagon->update();
 
-  console->sendText(vanagon, &performanceMonitor);
+  console->update();
 }

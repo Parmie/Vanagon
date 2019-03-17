@@ -6,10 +6,10 @@
 class Input
 {
   protected:
-    int _pin;
+    byte _pin;
 
   public:
-    Input(int pin)
+    Input(byte pin)
     {
       _pin = pin;
     };

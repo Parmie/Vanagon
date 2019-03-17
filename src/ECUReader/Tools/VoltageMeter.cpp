@@ -4,20 +4,14 @@
 #include <Arduino.h>
 #include "..\Arduino\AnalogInput.cpp"
 
-struct VoltageDivider
-{
-  float resistor1;
-  float resistor2;
-};
-
 class VoltageMeter
 {
   private:
-    AnalogInput *_input;
-    float _reference = 4.096;
-    float _scale = 1.0;
+    float _reference;
 
   public:
+    AnalogInput input;
+
     float getReference()
     {
       return _reference;
@@ -30,21 +24,17 @@ class VoltageMeter
 
     float getVoltage()
     {
-      return _input->getValue() * (_reference / 1024.0) * _scale;
+      return input.getValue() * (_reference / 1024.0);
     };
 
-    VoltageMeter(AnalogInput *input, VoltageDivider divider = { 0, 0 })
+    VoltageMeter(byte pin, float reference = 4.096) : input(pin)
     {
-      _input = input;
-      if (divider.resistor2 > 0)
-      {
-        _scale = (divider.resistor1 + divider.resistor2) / divider.resistor2;
-      }
+      _reference = reference;
     };
 
-    void update()
+    void read()
     {
-      _input->read();
+      input.read();
     };
 };
 

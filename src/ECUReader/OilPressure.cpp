@@ -8,32 +8,22 @@
 class OilPressure
 {
   private:
-    ResistanceMeter _resistanceMeter;
 
   public:
-
-    float getResistance()
-    {
-      return _resistanceMeter.getResistance();
-    };
+  ResistanceMeter ohmMeter;
 
     float getPressure()
     {
-      return -(sqrt(5)*sqrt(6726892997-7364000*_resistanceMeter.getResistance())-182325)/3682;
+      return -(sqrt(5)*sqrt(6726892997-7364000*ohmMeter.getResistance())-182325)/3682;
     };
 
-    OilPressure(AnalogInput *resistanceInput) : _resistanceMeter(resistanceInput, 150)
+    OilPressure(byte pin) : ohmMeter(pin, 150)
     {
     };
 
-    void update()
+    void read()
     {
-      _resistanceMeter.update();
-    };
-
-    void setBaseVoltage(float voltage)
-    {
-      _resistanceMeter.setBaseVoltage(voltage);
+      ohmMeter.read();
     };
 };
 

@@ -12,52 +12,38 @@
 class Vanagon
 {
 private:
-  AnalogInput batteryInput;
-  AnalogInput fuelSenderInput;
-  AnalogInput oilPressureInput;
-  AnalogInput oxygenSensorInput;
-  PulseInput hallSensorInput;
-  AnalogInput airTemperatureInput;
-  AnalogInput airFlowInput;
-
 public:
-  Battery *battery;
-  FuelTank *fuelTank;
-  OilPressure *oilPressure;
-  Exhaust *exhaust;
-  Induction *induction;
-  Injection *injection;
+  VoltageDivider sensorReference;
+  Battery battery;
+  FuelTank fuelTank;
+  OilPressure oilPressure;
+  Exhaust exhaust;
+  Induction induction;
+  Injection injection;
 
-  Vanagon() : batteryInput(A0),
-              fuelSenderInput(A5),
-              oilPressureInput(A6),
-              oxygenSensorInput(A1),
-              hallSensorInput(6),
-              airTemperatureInput(A3),
-              airFlowInput(A2)
-  {
-    battery = new Battery(&batteryInput);
-    fuelTank = new FuelTank(&fuelSenderInput);
-    oilPressure = new OilPressure(&oilPressureInput);
-    exhaust = new Exhaust(&oxygenSensorInput);
-    injection = new Injection(&hallSensorInput);
-    induction = new Induction(&airTemperatureInput, &airFlowInput);
-  };
+  Vanagon() : sensorReference(A7, 148.6, 148.3),
+              battery(A0),
+              fuelTank(A5),
+              oilPressure(A6),
+              exhaust(A1),
+              induction(A3, A2),
+              injection(6){
 
-  void setSensorVoltage(float voltage)
-  {
-    fuelTank->setBaseVoltage(voltage);
-    oilPressure->setBaseVoltage(voltage);
-  };
+              };
 
   void update()
   {
-    battery->update();
-    fuelTank->update();
-    oilPressure->update();
-    exhaust->update();
-    induction->update();
-    //_injection->update();
+    sensorReference.read();
+
+    battery.read();
+
+    fuelTank.ohmMeter.setBaseVoltage(sensorReference.getVoltage());
+    oilPressure.ohmMeter.setBaseVoltage(sensorReference.getVoltage());
+    fuelTank.read();
+    oilPressure.read();
+    exhaust.read();
+    induction.read();
+    //_injection.read();
   };
 };
 

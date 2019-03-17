@@ -27,14 +27,14 @@ class Induction
         
     };
 */
-    Induction(AnalogInput *temperatureInput, AnalogInput *airFlowInput) : _temperatureResistanceMeter(temperatureInput, 326), _flowResistanceMeter(airFlowInput, 330)
+    Induction(byte temperaturePin, byte airFlowPin) : _temperatureResistanceMeter(temperaturePin, 326), _flowResistanceMeter(airFlowPin, 330)
     {
     };
 
-    void update()
+    void read()
     {
-      _temperatureResistanceMeter.update();
-      _flowResistanceMeter.update();
+      _temperatureResistanceMeter.read();
+      _flowResistanceMeter.read();
     };
 
     void setBaseVoltage(float voltage)

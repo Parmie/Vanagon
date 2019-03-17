@@ -7,7 +7,7 @@
 
 class PulseInput {
   private:
-    unsigned short _pin;
+    byte _pin;
     int Cycle = 0;
     unsigned long _pulseStartTime;
     unsigned long _pulseEndTime;
@@ -68,7 +68,7 @@ class PulseInput {
       return _pulsesPerMinute;
     };
 
-    PulseInput(unsigned short pin)
+    PulseInput(byte pin)
     {
       _pin = pin;
       PcInt::attachInterrupt(_pin, pinChanged, this, CHANGE, true);

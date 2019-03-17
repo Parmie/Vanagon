@@ -2,27 +2,27 @@
 #define Battery_cpp
 
 #include <Arduino.h>
-#include "Arduino\AnalogInput.cpp"
-#include "Tools\VoltageMeter.cpp"
+#include "Tools\VoltageDivider.cpp"
 
 class Battery {
   private:
-    VoltageMeter _meter;
 
   public:
+    VoltageDivider voltageDivider;
+
     float getVoltage()
     {
-      return _meter.getVoltage();
+      return voltageDivider.getVoltage();
     };
 
-    Battery(AnalogInput *input) : _meter(input, {216.3, 98.8})
+    Battery(byte pin) : voltageDivider(pin, 216.3, 98.8)
     {
     };
 
-    void update()
+    void read()
     {
-      _meter.update();
-    };
+      voltageDivider.read();
+    }
 };
 
 #endif

@@ -8,29 +8,25 @@
 class ResistanceMeter
 {
   private:
-    VoltageMeter _voltageMeter;
     float _dividerResistance;
     float _baseVoltage;
 
   public:
-    float getVoltage()
-    {
-      return _voltageMeter.getVoltage();
-    };
+    VoltageMeter voltMeter;
 
     float getResistance()
     {
-      return (_voltageMeter.getVoltage() * _dividerResistance) / (_baseVoltage - _voltageMeter.getVoltage());
+      return (voltMeter.getVoltage() * _dividerResistance) / (_baseVoltage - voltMeter.getVoltage());
     };
 
-    ResistanceMeter(AnalogInput *input, float dividerResistance) : _voltageMeter(input)
+    ResistanceMeter(byte pin, float dividerResistance) : voltMeter(pin)
     {
       _dividerResistance = dividerResistance;
     };
 
-    void update()
+    void read()
     {
-      _voltageMeter.update();
+      voltMeter.read();
     };
 
     void setBaseVoltage(float voltage)

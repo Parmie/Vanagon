@@ -8,18 +8,14 @@
 class FuelTank
 {
   private:
-    ResistanceMeter _resistanceMeter;
     float _capacity;
 
   public:
-    float getResistance()
-    {
-      return _resistanceMeter.getResistance();
-    };
+    ResistanceMeter ohmMeter;
 
     float getContent()
     {
-        return (4.794908061 * pow(10, -4) * pow(_resistanceMeter.getResistance(), 2)) - (4.726976404 * pow(10, -1) * _resistanceMeter.getResistance()) + 99.48112787;
+        return (4.794908061 * pow(10, -4) * pow(ohmMeter.getResistance(), 2)) - (4.726976404 * pow(10, -1) * ohmMeter.getResistance()) + 99.48112787;
     };
 
     float getCapacity()
@@ -32,18 +28,13 @@ class FuelTank
         _capacity = value;
     };
 
-    FuelTank(AnalogInput *resistanceInput) : _resistanceMeter(resistanceInput, 326)
+    FuelTank(byte pin) : ohmMeter(pin, 326)
     {
     };
 
-    void update()
+    void read()
     {
-      _resistanceMeter.update();
-    };
-
-    void setBaseVoltage(float voltage)
-    {
-      _resistanceMeter.setBaseVoltage(voltage);
+      ohmMeter.read();
     };
 };
 

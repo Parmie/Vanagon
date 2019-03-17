@@ -31,13 +31,13 @@ class Exhaust {
       }
     };
 
-    Exhaust(AnalogInput *oxygenInput) : _oxygenVoltage(oxygenInput)
+    Exhaust(byte oxygenPin) : _oxygenVoltage(oxygenPin)
     {
     };
 
-    void update()
+    void read()
     {
-      _oxygenVoltage.update();
+      _oxygenVoltage.read();
     };
 };
 

@@ -7,16 +7,16 @@
 class Injection
 {
   private:
-    PulseInput *_hallSensorInput;
+    PulseInput hallSensorInput;
 
   public:
-    Injection(PulseInput *hallSensorInput) : _hallSensorInput(hallSensorInput)
+    Injection(byte hallSensorPin) : hallSensorInput(hallSensorPin)
     {
     };
 
     unsigned int getRevolutions()
     {
-      return _hallSensorInput->getPulsesPerMinute() / 2;
+      return hallSensorInput.getPulsesPerMinute() / 2;
     }
 };
 
