@@ -2,24 +2,19 @@
 #define Induction_cpp
 
 #include <Arduino.h>
-#include "Arduino\AnalogInput.cpp"
 #include "Tools\ResistanceMeter.cpp"
 
 class Induction
 {
   private:
-    ResistanceMeter _temperatureResistanceMeter;
-    ResistanceMeter _flowResistanceMeter;
 
   public:
-    float getTemperatureResistance()
-    {
-      return _temperatureResistanceMeter.getResistance();
-    };
+    ResistanceMeter temperatureOhmMeter;
+    ResistanceMeter flowOhmMeter;
 
     float getFlowResistance()
     {
-      return _flowResistanceMeter.getResistance();
+      return flowOhmMeter.getResistance();
     };
 /*
     float getTemperature()
@@ -27,20 +22,14 @@ class Induction
         
     };
 */
-    Induction(byte temperaturePin, byte airFlowPin) : _temperatureResistanceMeter(temperaturePin, 326), _flowResistanceMeter(airFlowPin, 330)
+    Induction(byte temperaturePin, byte airFlowPin) : temperatureOhmMeter(temperaturePin, 326), flowOhmMeter(airFlowPin, 330)
     {
     };
 
     void read()
     {
-      _temperatureResistanceMeter.read();
-      _flowResistanceMeter.read();
-    };
-
-    void setBaseVoltage(float voltage)
-    {
-      _temperatureResistanceMeter.setBaseVoltage(voltage);
-      _flowResistanceMeter.setBaseVoltage(voltage);
+      temperatureOhmMeter.read();
+      flowOhmMeter.read();
     };
 };
 
