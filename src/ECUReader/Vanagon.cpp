@@ -3,11 +3,12 @@
 
 #include <Arduino.h>
 #include "Battery.cpp"
-#include "FuelTank.cpp"
+#include "FuelLevel.cpp"
 #include "OilPressure.cpp"
-#include "Exhaust.cpp"
-#include "Induction.cpp"
+#include "LambdaSensor.cpp"
+#include "AirFlowMeter.cpp"
 #include "Injection.cpp"
+#include "Tools\NTCSensor.cpp"
 
 class Vanagon
 {
@@ -15,21 +16,27 @@ private:
 public:
   VoltageDivider sensorReference;
   Battery battery;
-  FuelTank fuelTank;
+  FuelLevel fuelLevel;
   OilPressure oilPressure;
-  Exhaust exhaust;
-  Induction induction;
+  LambdaSensor lambdaSensor;
+  AirFlowMeter airFlowMeter;
   Injection injection;
+  NTCSensor intakeTemperature;
+  NTCSensor coolantTemperature;
 
   Vanagon() : sensorReference(A7, 148.6, 148.3),
               battery(A0),
-              fuelTank(A5),
+              fuelLevel(A5),
               oilPressure(A6),
-              exhaust(A1),
-              induction(A3, A2),
-              injection(6){
-
-              };
+              lambdaSensor(A1),
+              airFlowMeter(A2),
+              injection(6),
+              intakeTemperature(A3, 8250, 2041, 3545),
+              coolantTemperature(A4, 8250, 2041, 3545)
+  {
+    intakeTemperature.ohmMeter.setBaseVoltage(5);
+    coolantTemperature.ohmMeter.setBaseVoltage(5);
+  };
 
   void update()
   {
@@ -37,13 +44,15 @@ public:
 
     battery.read();
 
-    fuelTank.ohmMeter.setBaseVoltage(sensorReference.getVoltage());
+    fuelLevel.ohmMeter.setBaseVoltage(sensorReference.getVoltage());
     oilPressure.ohmMeter.setBaseVoltage(sensorReference.getVoltage());
-    fuelTank.read();
+    fuelLevel.read();
     oilPressure.read();
-    exhaust.read();
-    induction.read();
+    lambdaSensor.read();
+    airFlowMeter.read();
     //_injection.read();
+    intakeTemperature.read();
+    coolantTemperature.read();
   };
 };
 

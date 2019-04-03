@@ -82,7 +82,7 @@ class DigitalInput : Input
       _debouncePeriod = period;
     };
 
-    DigitalInput(int pin, long debouncePeriod = 25) : Input(pin)
+    DigitalInput(byte pin, long debouncePeriod = 25) : Input(pin)
     {
       _debouncePeriod = debouncePeriod;
       pinMode(pin, INPUT);

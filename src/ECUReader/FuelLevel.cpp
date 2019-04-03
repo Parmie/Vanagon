@@ -1,17 +1,17 @@
-#ifndef FuelTank_cpp
-#define FuelTank_cpp
+#ifndef FuelLevel_cpp
+#define FuelLevel_cpp
 
 #include <Arduino.h>
 #include "Arduino\AnalogInput.cpp"
-#include "Tools\ResistanceMeter.cpp"
+#include "Tools\OhmMeter.cpp"
 
-class FuelTank
+class FuelLevel
 {
   private:
     float _capacity;
 
   public:
-    ResistanceMeter ohmMeter;
+    OhmMeter ohmMeter;
 
     float getContent()
     {
@@ -28,7 +28,7 @@ class FuelTank
         _capacity = value;
     };
 
-    FuelTank(byte pin) : ohmMeter(pin, 326)
+    FuelLevel(byte pin) : ohmMeter(pin, 326)
     {
     };
 

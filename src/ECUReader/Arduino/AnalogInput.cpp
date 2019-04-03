@@ -10,12 +10,12 @@ class AnalogInput : Input
     unsigned short _value = 0;
     
   public:
-    float getValue()
+    unsigned short getValue()
     {
       return _value;
     };
 
-    AnalogInput(int pin) : Input(pin)
+    AnalogInput(byte pin) : Input(pin)
     {
     };
 

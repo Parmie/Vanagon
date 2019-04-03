@@ -1,11 +1,11 @@
-#ifndef ResistanceMeter_cpp
-#define ResistanceMeter_cpp
+#ifndef OhmMeter_cpp
+#define OhmMeter_cpp
 
 #include <Arduino.h>
 #include "..\Arduino\AnalogInput.cpp"
 #include "VoltageMeter.cpp"
 
-class ResistanceMeter
+class OhmMeter
 {
   private:
     float _dividerResistance;
@@ -19,7 +19,7 @@ class ResistanceMeter
       return (voltMeter.getVoltage() * _dividerResistance) / (_baseVoltage - voltMeter.getVoltage());
     };
 
-    ResistanceMeter(byte pin, float dividerResistance) : voltMeter(pin)
+    OhmMeter(byte pin, float dividerResistance) : voltMeter(pin)
     {
       _dividerResistance = dividerResistance;
     };

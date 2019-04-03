@@ -3,14 +3,14 @@
 
 #include <Arduino.h>
 #include "Arduino\AnalogInput.cpp"
-#include "Tools\ResistanceMeter.cpp"
+#include "Tools\OhmMeter.cpp"
 
 class OilPressure
 {
   private:
 
   public:
-  ResistanceMeter ohmMeter;
+  OhmMeter ohmMeter;
 
     float getPressure()
     {

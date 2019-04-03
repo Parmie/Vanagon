@@ -48,17 +48,19 @@ class Console
         {
         case 0:
         {
+            // Overview
             print(performanceMonitor->getCycleTime());
             print(vanagon->battery.getVoltage());
-            print(vanagon->fuelTank.getContent());
+            print(vanagon->fuelLevel.getContent());
             print(vanagon->oilPressure.getPressure());
-            print(vanagon->exhaust.getOxygenVoltage());
+            print(vanagon->lambdaSensor.getVoltage());
             print(vanagon->injection.getRevolutions());
 
             break;
         }
         case 1:
         {
+            // Battery
             print(vanagon->battery.voltageDivider.voltMeter.input.getValue());
             print(vanagon->battery.voltageDivider.voltMeter.getVoltage());
             print(vanagon->battery.voltageDivider.getVoltage());
@@ -67,18 +69,55 @@ class Console
         }
         case 2:
         {
-            print(vanagon->fuelTank.ohmMeter.voltMeter.input.getValue());
-            print(vanagon->fuelTank.ohmMeter.voltMeter.getVoltage());
-            print(vanagon->fuelTank.ohmMeter.getResistance());
-            print(vanagon->fuelTank.getContent());
+            // Fuel level
+            print(vanagon->fuelLevel.ohmMeter.voltMeter.input.getValue());
+            print(vanagon->fuelLevel.ohmMeter.voltMeter.getVoltage());
+            print(vanagon->fuelLevel.ohmMeter.getResistance());
+            print(vanagon->fuelLevel.getContent());
             break;
         }
         case 3:
         {
+            // Oil pressure
             print(vanagon->oilPressure.ohmMeter.voltMeter.input.getValue());
             print(vanagon->oilPressure.ohmMeter.voltMeter.getVoltage());
             print(vanagon->oilPressure.ohmMeter.getResistance());
             print(vanagon->oilPressure.getPressure());
+            break;
+        }
+        case 4:
+        {
+            // Coolant temperature - A4
+            print(vanagon->coolantTemperature.ohmMeter.voltMeter.input.getValue());
+            print(vanagon->coolantTemperature.ohmMeter.voltMeter.getVoltage());
+            print(vanagon->coolantTemperature.ohmMeter.getResistance());
+            print(vanagon->coolantTemperature.getTemperature());
+            break;
+        }
+        case 5:
+        {
+            // Air temperature - A3
+            print(vanagon->intakeTemperature.ohmMeter.voltMeter.input.getValue());
+            print(vanagon->intakeTemperature.ohmMeter.voltMeter.getVoltage());
+            print(vanagon->intakeTemperature.ohmMeter.getResistance());
+            print(vanagon->intakeTemperature.getTemperature());
+            break;
+        }
+        case 6:
+        {
+            // Air flow
+            print(vanagon->airFlowMeter.ohmMeter.voltMeter.input.getValue());
+            print(vanagon->airFlowMeter.ohmMeter.voltMeter.getVoltage());
+            print(vanagon->airFlowMeter.ohmMeter.getResistance());
+            print(vanagon->airFlowMeter.getFlow());
+            break;
+        }
+        case 7:
+        {
+            // Lambda sensor - A1
+            print(vanagon->lambdaSensor.voltageMeter.input.getValue());
+            print(vanagon->lambdaSensor.voltageMeter.getVoltage());
+            print(vanagon->lambdaSensor.getVoltage());
             break;
         }
         default:
