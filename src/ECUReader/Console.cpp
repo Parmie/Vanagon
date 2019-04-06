@@ -56,6 +56,7 @@ class Console
             print(performanceMonitor->getCycleTime());
             print(vanagon->battery.getVoltage());
             print(vanagon->lambdaSensor.getVoltage());
+            print(vanagon->induction.getFlow());
             print(vanagon->intakeTemperature.getTemperature());
             print(vanagon->coolantTemperature.getTemperature());
             print(vanagon->oilPressure.getPressure());
@@ -83,10 +84,11 @@ class Console
         case 3:
         {
             // Air flow - A2
-            print(vanagon->airFlowMeter.ohmMeter.voltMeter.input.getValue());
-            print(vanagon->airFlowMeter.ohmMeter.voltMeter.getVoltage());
-            print(vanagon->airFlowMeter.ohmMeter.getResistance());
-            print(vanagon->airFlowMeter.getFlow());
+            print(vanagon->induction.ohmMeter.voltMeter.input.getValue());
+            print(vanagon->induction.ohmMeter.voltMeter.getVoltage());
+            print(vanagon->induction.ohmMeter.getResistance());
+            print(vanagon->induction.getFlow());
+            print(vanagon->induction.getEnrichment());
             break;
         }
         case 4:

@@ -6,7 +6,7 @@
 #include "FuelLevel.cpp"
 #include "OilPressure.cpp"
 #include "LambdaSensor.cpp"
-#include "AirFlowMeter.cpp"
+#include "Induction.cpp"
 #include "Tools\NTCSensor.cpp"
 
 class Vanagon
@@ -15,7 +15,7 @@ private:
 public:
   Battery battery;
   LambdaSensor lambdaSensor;
-  AirFlowMeter airFlowMeter;
+  Induction induction;
   NTCSensor intakeTemperature;
   NTCSensor coolantTemperature;
   OilPressure oilPressure;
@@ -23,7 +23,7 @@ public:
 
   Vanagon() : battery(A0),
               lambdaSensor(A1),
-              airFlowMeter(A2),
+              induction(A2, 4),
               intakeTemperature(A3, 8250, 2041, 3545),
               coolantTemperature(A4, 8250, 2041, 3545),
               oilPressure(A5, 9, 10),
@@ -35,7 +35,7 @@ public:
   {
     battery.read();
     lambdaSensor.read();
-    airFlowMeter.read();
+    induction.read();
     intakeTemperature.read();
     coolantTemperature.read();
     oilPressure.read();
