@@ -22,6 +22,7 @@ class OhmMeter
     OhmMeter(byte pin, float dividerResistance) : voltMeter(pin)
     {
       _dividerResistance = dividerResistance;
+      _baseVoltage = 5;
     };
 
     void read()

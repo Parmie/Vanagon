@@ -27,7 +27,7 @@ class VoltageMeter
       return input.getValue() * (_reference / 1024.0);
     };
 
-    VoltageMeter(byte pin, float reference = 4.096) : input(pin)
+    VoltageMeter(byte pin, float reference = 5) : input(pin)
     {
       _reference = reference;
     };
