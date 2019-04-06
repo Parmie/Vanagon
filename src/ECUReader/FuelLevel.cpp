@@ -28,7 +28,7 @@ class FuelLevel
         _capacity = value;
     };
 
-    FuelLevel(byte pin) : ohmMeter(pin, 326)
+    FuelLevel(byte pin) : ohmMeter(pin, 56)
     {
     };
 

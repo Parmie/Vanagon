@@ -26,7 +26,7 @@ public:
               airFlowMeter(A2),
               intakeTemperature(A3, 8250, 2041, 3545),
               coolantTemperature(A4, 8250, 2041, 3545),
-              oilPressure(A5),
+              oilPressure(A5, 9, 10),
               fuelLevel(A6)
   {
   };

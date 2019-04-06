@@ -114,6 +114,8 @@ class Console
             print(vanagon->oilPressure.ohmMeter.voltMeter.getVoltage());
             print(vanagon->oilPressure.ohmMeter.getResistance());
             print(vanagon->oilPressure.getPressure());
+            print(vanagon->oilPressure.getLowPressure());
+            print(vanagon->oilPressure.getHighPressure());
             break;
         }
         case 7:

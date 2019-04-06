@@ -15,7 +15,7 @@ class Battery {
       return voltageDivider.getVoltage();
     };
 
-    Battery(byte pin) : voltageDivider(pin, 216.3, 98.8)
+    Battery(byte pin) : voltageDivider(pin, 56, 12)
     {
     };
 
