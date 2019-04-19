@@ -3,40 +3,40 @@
 
 #include <Arduino.h>
 #include "Arduino\AnalogInput.cpp"
-#include "Tools\VoltageMeter.cpp"
+#include "Tools\VoltMeter.cpp"
 
 class LambdaSensor {
   public:
-    VoltageMeter voltageMeter;
+    VoltMeter voltMeter;
 
     float getVoltage()
     {
-      return voltageMeter.getVoltage();
+      return voltMeter.getVoltage();
     };
 
     byte getMixtureStatus()
     {
-      if (voltageMeter.getVoltage() > 0.720)
+      if (voltMeter.getVoltage() > 0.720)
       {
-          return +1;
+        return +1;
       }
-      else if (voltageMeter.getVoltage() < 0.120)
+      else if (voltMeter.getVoltage() < 0.120)
       {
-          return -1;
+        return -1;
       }
       else
       {
-          return 0;
+        return 0;
       }
     };
 
-    LambdaSensor(byte pin) : voltageMeter(pin)
+    LambdaSensor(byte pin) : voltMeter(pin)
     {
     };
 
     void read()
     {
-      voltageMeter.read();
+      voltMeter.read();
     };
 };
 

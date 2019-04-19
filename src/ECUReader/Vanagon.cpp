@@ -11,36 +11,36 @@
 
 class Vanagon
 {
-private:
-public:
-  Battery battery;
-  LambdaSensor lambdaSensor;
-  Induction induction;
-  NTCSensor intakeTemperature;
-  NTCSensor coolantTemperature;
-  OilPressure oilPressure;
-  FuelLevel fuelLevel;
+  private:
+  public:
+    Battery battery;
+    LambdaSensor lambdaSensor;
+    Induction induction;
+    NTCSensor intakeTemperature;
+    NTCSensor coolantTemperature;
+    OilPressure oilPressure;
+    FuelLevel fuelLevel;
 
-  Vanagon() : battery(A0),
-              lambdaSensor(A1),
-              induction(A2, 4),
-              intakeTemperature(A3, 8250, 2041, 3545),
-              coolantTemperature(A4, 8250, 2041, 3545),
-              oilPressure(A5, 9, 10),
-              fuelLevel(A6)
-  {
-  };
+    Vanagon() : battery(A0),
+      lambdaSensor(A1),
+      induction(A2, 4),
+      intakeTemperature(A3, 8250, 2041, 3545),
+      coolantTemperature(A4, 8250, 2041, 3545),
+      oilPressure(A5, 9, 10),
+      fuelLevel(A6)
+    {
+    };
 
-  void update()
-  {
-    battery.read();
-    lambdaSensor.read();
-    induction.read();
-    intakeTemperature.read();
-    coolantTemperature.read();
-    oilPressure.read();
-    fuelLevel.read();
-  };
+    void update()
+    {
+      battery.read();
+      lambdaSensor.read();
+      induction.read();
+      intakeTemperature.read();
+      coolantTemperature.read();
+      oilPressure.read();
+      fuelLevel.read();
+    };
 };
 
 #endif

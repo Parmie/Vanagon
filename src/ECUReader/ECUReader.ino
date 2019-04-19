@@ -12,7 +12,7 @@ void setup()
   // Using internal 5V as reference.
   // Don't provide USB power! It's unstable and ruins our reference.
   analogReference(DEFAULT);
-  console.init(115200);
+  console.init(9600);
 }
 
 void loop()

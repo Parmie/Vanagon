@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "..\Arduino\AnalogInput.cpp"
-#include "VoltageMeter.cpp"
+#include "VoltMeter.cpp"
 
 class OhmMeter
 {
@@ -12,7 +12,7 @@ class OhmMeter
     float _baseVoltage;
 
   public:
-    VoltageMeter voltMeter;
+    VoltMeter voltMeter;
 
     float getResistance()
     {

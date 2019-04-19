@@ -2,7 +2,7 @@
 #define GraphView_cpp
 
 #include <Arduino.h>
-#include "Tools\Display.cpp"
+#include "Display.cpp"
 
 #define GRAPH_LENGTH 82
 #define GRAPH_HIGHT 38
@@ -50,8 +50,8 @@ class GraphView : public View {
     {
       display->writeString(0, 0, _title);
       String valueText = String(_currentValue);
-      display->writeString(0, 14-_unit.length()-valueText.length(), valueText);
-      display->writeString(0, 14-_unit.length(), _unit);
+      display->writeString(0, 14 - _unit.length() - valueText.length(), valueText);
+      display->writeString(0, 14 - _unit.length(), _unit);
 
       if (_step1 > 0)
       {
@@ -72,9 +72,9 @@ class GraphView : public View {
         }
       }
 
-      for (byte i=0; i < GRAPH_LENGTH; i++)
+      for (byte i = 0; i < GRAPH_LENGTH; i++)
       {
-        byte index = _firstPoint+i;
+        byte index = _firstPoint + i;
         if (index >= GRAPH_HIGHT)
         {
           index = index - GRAPH_HIGHT;
@@ -82,7 +82,7 @@ class GraphView : public View {
         byte value = _points[i];
         if (value >= 0 && value <= GRAPH_HIGHT)
         {
-          display->drawPixel(2+i, 47 - _points[i]);
+          display->drawPixel(2 + i, 47 - _points[i]);
         }
       }
     };

@@ -1,10 +1,10 @@
-#ifndef VoltageMeter_cpp
-#define VoltageMeter_cpp
+#ifndef VoltMeter_cpp
+#define VoltMeter_cpp
 
 #include <Arduino.h>
 #include "..\Arduino\AnalogInput.cpp"
 
-class VoltageMeter
+class VoltMeter
 {
   private:
     float _reference;
@@ -27,7 +27,7 @@ class VoltageMeter
       return input.getValue() * (_reference / 1024.0);
     };
 
-    VoltageMeter(byte pin, float reference = 5) : input(pin)
+    VoltMeter(byte pin, float reference = 5) : input(pin)
     {
       _reference = reference;
     };

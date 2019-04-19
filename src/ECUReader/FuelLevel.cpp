@@ -15,17 +15,17 @@ class FuelLevel
 
     float getContent()
     {
-        return (4.794908061 * pow(10, -4) * pow(ohmMeter.getResistance(), 2)) - (4.726976404 * pow(10, -1) * ohmMeter.getResistance()) + 99.48112787;
+      return (4.794908061 * pow(10, -4) * pow(ohmMeter.getResistance(), 2)) - (4.726976404 * pow(10, -1) * ohmMeter.getResistance()) + 99.48112787;
     };
 
     float getCapacity()
     {
-        return _capacity;
+      return _capacity;
     };
 
     void setCapacity(float value)
     {
-        _capacity = value;
+      _capacity = value;
     };
 
     FuelLevel(byte pin) : ohmMeter(pin, 56)

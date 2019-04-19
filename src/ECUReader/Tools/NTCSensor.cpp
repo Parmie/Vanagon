@@ -17,8 +17,9 @@ public:
   float getTemperature()
   {
     float resistance = ohmMeter.getResistance();
-    float tempK = (_beta / log(resistance / _r25));
-    return tempK - 273.15;
+    //float tempK = (_beta / log(resistance / _r25));
+    float temp = 1 / ((log(resistance / _r25) / _beta) + (1 / (273.15 + 25))) - 273.15;
+    return temp;
   };
 
   NTCSensor(byte pin, float dividerResistance, unsigned int r25, unsigned short beta) : ohmMeter(pin, dividerResistance)

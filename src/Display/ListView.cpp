@@ -2,13 +2,13 @@
 #define ListView_cpp
 
 #include <Arduino.h>
-#include "Tools\Display.cpp"
+#include "Display.cpp"
 
 struct ListItem
 {
   String title;
   String unit;
-  float value;
+  String value;
 };
 
 class ListView : public View
@@ -23,7 +23,7 @@ class ListView : public View
       _items[index].unit = unit;
     }
 
-    void setValue(byte index, float value)
+    void setValue(byte index, String value)
     {
       _items[index].value = value;
     }
@@ -35,8 +35,8 @@ class ListView : public View
         if (_items[i].title.length() > 0)
         {
           display->writeString(i, 0, _items[i].title);
-          String value = String(_items[i].value);
-          display->writeString(i, 5+6-value.length(), value);
+          String value = _items[i].value;
+          display->writeString(i, 5 + 6 - value.length(), value);
           display->writeString(i, 11, _items[i].unit);
         }
       }

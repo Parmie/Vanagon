@@ -2,7 +2,7 @@
 #define VoltageDivider_cpp
 
 #include <Arduino.h>
-#include "VoltageMeter.cpp"
+#include "VoltMeter.cpp"
 
 class VoltageDivider
 {
@@ -10,7 +10,7 @@ class VoltageDivider
     float _scale = 1.0;
 
   public:
-    VoltageMeter voltMeter;
+    VoltMeter voltMeter;
 
     float getScale()
     {
