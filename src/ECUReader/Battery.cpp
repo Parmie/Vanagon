@@ -15,7 +15,7 @@ class Battery {
       return voltageDivider.getVoltage();
     };
 
-    Battery(byte pin) : voltageDivider(pin, 56, 12)
+    Battery(byte pin) : voltageDivider(pin, 57.396, 12) // Resistors are 56 and 12 ohm
     {
     };
 

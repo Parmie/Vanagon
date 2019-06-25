@@ -63,6 +63,8 @@ class Console
             print(vanagon->oilPressure.getLowPressure());
             print(vanagon->oilPressure.getHighPressure());
             print(vanagon->fuelLevel.getContent());
+            print(vanagon->camshaft.getRevolutions());
+            print(vanagon->reference);
 
             break;
           }
@@ -130,6 +132,14 @@ class Console
             print(vanagon->fuelLevel.getContent());
             break;
           }
+        case 8:
+          {
+            // Camshaft - 6
+            print(vanagon->camshaft.hallSensorInput.getState());
+            print(vanagon->camshaft.hallSensorInput.getPulseWidth());
+            print(vanagon->camshaft.getRevolutions());
+            break;
+          }
         default:
           {
             viewIndex = 0;
@@ -159,6 +169,15 @@ class Console
     };
 
     void print(unsigned int value)
+    {
+      if (value == value)
+      {
+        Serial.print(String(value));
+      }
+      Serial.print(char(32));
+    };
+
+    void print(unsigned long value)
     {
       if (value == value)
       {

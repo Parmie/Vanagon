@@ -13,6 +13,7 @@ GraphView *airTempGraph;
 GraphView *coolantTempGraph;
 GraphView *oilPressureGraph;
 GraphView *fuelLevelGraph;
+GraphView *revolutionsGraph;
 View *view;
 short subPage = 0;
 
@@ -215,6 +216,21 @@ void loop()
 
             break;
           }
+        case 8:
+          {
+            if (revolutionsGraph == NULL)
+            {
+              clearViews();
+              view = revolutionsGraph = new GraphView("Revs", "/m", 0, 7000, 1000, 1000);
+            }
+
+            Serial.readStringUntil(' ');
+            Serial.readStringUntil(' ');
+            float revolutions = Serial.readStringUntil(' ').toFloat();
+            revolutionsGraph->addPoint(revolutions);
+
+            break;
+          }
         default:
           {
             if (placeHolder == NULL)
@@ -300,6 +316,12 @@ void clearViews()
   {
     delete fuelLevelGraph;
     fuelLevelGraph = NULL;
+  }
+
+  if (revolutionsGraph != NULL)
+  {
+    delete revolutionsGraph;
+    revolutionsGraph = NULL;
   }
 
   view = NULL;

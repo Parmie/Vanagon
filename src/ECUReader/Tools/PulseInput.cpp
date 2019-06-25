@@ -8,7 +8,7 @@
 class PulseInput {
   private:
     byte _pin;
-    int Cycle = 0;
+    bool _state = 0;
     unsigned long _pulseStartTime;
     unsigned long _pulseEndTime;
     unsigned long _pulseLength = 0;
@@ -35,6 +35,7 @@ class PulseInput {
       {
         input->_pulseEndTime = micros();
       }
+      input->_state = pinState;
     };
 
   public:
@@ -47,6 +48,11 @@ class PulseInput {
     {
       return _pulseEndTime;
     };
+
+    bool getState()
+    {
+      return _state;
+    }
 
     unsigned long getPulseLength()
     {
