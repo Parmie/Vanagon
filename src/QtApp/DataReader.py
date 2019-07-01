@@ -48,26 +48,24 @@ class DataReader(QObject):
                 values = arduinoData.split(" ")
                 page = int(values[0])
                 if page == 0:
-                    data = VanagonData()
-                    data.CycleTime = int(values[1])
-                    data.ReferenceVoltage = float(values[12])
-                    data.BatteryVoltage = float(values[2])
-                    data.O2Voltage = float(values[3])
-                    data.AirFlowPercentage = float(values[4])
-                    data.AirTemperature = float(values[5])
-                    data.CoolantTemperature = float(values[6])
-                    data.OilPressure = float(values[7])
-                    data.OilPressureLowAlarm = int(values[8]) > 0
-                    data.OilPressureHighAlarm = int(values[9]) > 0
-                    data.FuelLevel = float(values[10])
-                    data.CamshaftRevolutions = int(values[11])
+                    if len(values) >= 12:
+                        data = VanagonData()
+                        data.CycleTime = int(values[1])
+                        data.BatteryVoltage = float(values[2])
+                        data.O2Voltage = float(values[3])
+                        data.AirFlowPercentage = float(values[4])
+                        data.AirTemperature = float(values[5])
+                        data.CoolantTemperature = float(values[6])
+                        data.OilPressure = float(values[7])
+                        data.OilPressureLowAlarm = int(values[8]) > 0
+                        data.OilPressureHighAlarm = int(values[9]) > 0
+                        data.FuelLevel = float(values[10])
+                        data.CamshaftRevolutions = int(values[11])
+                        data.ReferenceVoltage = float(values[12])
 
-                    self.dataReceived.emit(data)
+                        self.dataReceived.emit(data)
 
-                    #file.write(str(datetime.datetime.utcnow()) + ";" + str(arduino.CycleTime) + ";" + str(arduino.ReferenceVoltage) + ";" + str(data.BatteryVoltage) + ";" + str(data.O2Voltage) + ";" + str(data.AirFlowPercentage) + ";" + str(data.AirTemperature) + ";" + str(data.CoolantTemperature) + ";" + str(data.OilPressure) + ";" + str(data.OilPressureLowAlarm) + ";" + str(data.OilPressureHighAlarm) + ";" + str(data.FuelLevel) + ";" + str(data.CamshaftRevolutions) + "\n")
-
-                    #print(data)
-                    #append(batteryVoltage, data.BatteryVoltage)
+                        #file.write(str(datetime.datetime.utcnow()) + ";" + str(arduino.CycleTime) + ";" + str(arduino.ReferenceVoltage) + ";" + str(data.BatteryVoltage) + ";" + str(data.O2Voltage) + ";" + str(data.AirFlowPercentage) + ";" + str(data.AirTemperature) + ";" + str(data.CoolantTemperature) + ";" + str(data.OilPressure) + ";" + str(data.OilPressureLowAlarm) + ";" + str(data.OilPressureHighAlarm) + ";" + str(data.FuelLevel) + ";" + str(data.CamshaftRevolutions) + "\n")
                 else:
                     print("Page " + str(page))
             except UnicodeDecodeError:

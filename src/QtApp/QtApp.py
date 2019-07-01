@@ -9,7 +9,9 @@ class MainForm(QWidget):
     arrayLength = 100
     counter = 0
     x_list = []
-    y_list = []
+    plotdata_battery = []
+    plotData_lambda = []
+    plotdata_airFlow = []
 
     def __init__(self):
         super().__init__()
@@ -28,7 +30,15 @@ class MainForm(QWidget):
         self.plot = self.canvas.addPlot()
         self.plot.showGrid(True, True)
         self.plot.setYRange(0, 15)
-        self.drawPlot = self.plot.plot()
+        self.batteryPlot = self.plot.plot()
+        self.lambdaPlot = self.plot.plot()
+
+        self.canvas.nextRow()
+
+        self.plot2 = self.canvas.addPlot()
+        self.plot2.showGrid(True, True)
+        self.plot2.setYRange(0, 1)
+        self.airFlowPlot = self.plot2.plot()
 
         self.dataReader = DataReader("USB-SERIAL CH340 (COM4)")
         if self.dataReader.serialPort == None:
@@ -43,20 +53,22 @@ class MainForm(QWidget):
         self.thread.start()
     
     @pyqtSlot(VanagonData)
-    def dataReceived(self, data):
-        print(str(data.BatteryVoltage))  
-        self.updateBatteryVoltage(data.BatteryVoltage)
-
-    def updateBatteryVoltage(self, voltage):
+    def dataReceived(self, data):        
         self.counter = self.counter + 1
         self.x_list.append(self.counter)
-        self.y_list.append(voltage)
+        self.plotdata_battery.append(data.BatteryVoltage)
+        self.plotData_lambda.append(data.O2Voltage)
+        self.plotdata_airFlow.append(data.AirFlowPercentage)
 
         if (self.counter > self.arrayLength):
             self.x_list.pop(0)
-            self.y_list.pop(0)
+            self.plotdata_battery.pop(0)
+            self.plotData_lambda.pop(0)
+            self.plotdata_airFlow.pop(0)
 
-        self.drawPlot.setData(self.x_list, self.y_list)
+        self.batteryPlot.setData(self.x_list, self.plotdata_battery)
+        self.lambdaPlot.setData(self.x_list, self.plotData_lambda)
+        self.airFlowPlot.setData(self.x_list, self.plotdata_airFlow)
 
 if __name__ == "__main__":
     app = QApplication([])
